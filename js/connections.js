@@ -9,9 +9,9 @@ var stars;
 var delay = true;
 var counter = 0;
 
-var MAX_DISTANCE = 50;
-var SPEED = 0.8;
-var DENSITY = 0.1;
+var MAX_DISTANCE = 100;
+var SPEED = 0.7;
+var DENSITY = 0.08;
 var SMALLEST_SIZE = 4;
 var LARGEST_SIZE = 8;
 
@@ -50,7 +50,7 @@ function bang() {
   con = canvas.getContext('2d');
   stars = WIDTH * DENSITY;
   for(var i = 0; i < stars; i++) {
-    pxs[i] = new Body();
+    pxs[i] = new Body(i);
   }
   draw();
 }
@@ -60,6 +60,7 @@ function draw() {
   for(var i = 0; i < pxs.length; i++) {
     pxs[i].move();
     pxs[i].draw();
+    pxs[i].connections = [];
     for(var j = 0 ; j < pxs.length; j++){
       if(j===i) continue;
       var dis = getDistance(pxs[i], pxs[j]);
@@ -70,8 +71,11 @@ function draw() {
   window.requestAnimationFrame(draw);
 }
 
-function Body() {
+function Body(id) {
   var x, y, r, dx, dy, dr, opacity;
+
+  this.id = id;
+  this.connections = [];
 
   this.createBug = function(){
 
@@ -117,12 +121,18 @@ function Body() {
       dy*=-1;
   };
 
-  this.getX = function() { return x; }
-  this.getY = function() { return y; }
-  this.getR = function() { return r; }
+
+  this.addConnection = function(body){
+    this.connections.push(body);
+  };
+
+  this.getX = function() { return x; };
+  this.getY = function() { return y; };
+  this.getR = function() { return r; };
+
 
   this.reset();
-};
+}
 
 var getRandomIn = function(bottom, top){
   return bottom + (Math.random())*(top - bottom);
@@ -135,21 +145,29 @@ var getDistance = function(current, other){
     );
 };
 
+var alreadyConnected = function(b1, b2){
+
+  var already = b2.connections.some(function(b){
+    return b.id == b1.id;
+  });
+  return already;
+
+};
+
 var connect = function(bug1, bug2, opacity){
+
+  if(alreadyConnected(bug1, bug2))
+    return;
+
+  bug1.addConnection(bug2);
 
   con.beginPath();
 
   con.lineWidth = 1;
   con.strokeStyle = 'rgba(255,255,255,' + opacity + ')';
-  //con.shadowColor   = 'rgba(226,225,142,1)';
- // con.globalAlpha=opacity; // Half opacity
   con.moveTo(bug1.getX() - bug1.getR(), bug1.getY() - bug1.getR());
   con.lineTo(bug2.getX() - bug2.getR(), bug2.getY() - bug2.getR());
   con.stroke();
 
   con.closePath();
-  // con.shadowOffsetX = 0;
-  // con.shadowOffsetY = 0;
-  // con.shadowBlur    = 10;
-  // con.fill();
 };
