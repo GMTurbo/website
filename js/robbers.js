@@ -16,7 +16,7 @@ var Robber = function(options) {
     speedRange = 0.1,
     dx = _.random(-speedRange, speedRange),
     dy = _.random(-speedRange, speedRange),
-    r = 5,
+    r = 7,
     opacity = 10,
     color = 'rgba(204,0,0,' + opacity + ')',
     shadowColor = 'rgba(204,0,0,1)',
@@ -40,7 +40,7 @@ var Robber = function(options) {
 
     path.push(position);
 
-    if(path.length > 50)
+    if (path.length > 50)
       path = path.splice(1); //[1,2,3,4,5] => [2,3,4,5]
 
   };
@@ -75,9 +75,9 @@ var Robber = function(options) {
 
     context.lineWidth = 1;
     context.strokeStyle = color;
-    for(var i = 0 , length = path.length; i < length - 1 ; i++){
+    for (var i = 0, length = path.length; i < length - 1; i++) {
       context.moveTo(path[i][0] - r, path[i][1] - r);
-      context.lineTo(path[i+1][0] - r, path[i+1][1] - r);
+      context.lineTo(path[i + 1][0] - r, path[i + 1][1] - r);
     }
 
     context.stroke();

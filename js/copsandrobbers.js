@@ -144,8 +144,7 @@ var System = function(options) {
       vec = [],
       mag,
       copDeltas = [],
-      robDeltas = [],
-      scale = 1;
+      robDeltas = [];
 
     _.forEach(robbers, function(rob) {
 
@@ -157,14 +156,14 @@ var System = function(options) {
 
         prev = cop.getPosition();
         mag = helper.getDistance(cur, prev);
-        vec[0] += scale * (cur[0] - prev[0]) / (mag * mag);
-        vec[1] += scale * (cur[1] - prev[1]) / (mag * mag);
+        vec[0] += (cur[0] - prev[0]) / (mag * mag);
+        vec[1] += (cur[1] - prev[1]) / (mag * mag);
       });
 
       robDeltas.push(vec);
 
     });
-    
+
     _.forEach(cops, function(cop) {
 
       cur = cop.getPosition();
@@ -174,8 +173,8 @@ var System = function(options) {
       _.forEach(robbers, function(rob) {
         prev = rob.getPosition();
         mag = helper.getDistance(cur, prev);
-        vec[0] += scale * (cur[0] - prev[0]) / (mag * mag);
-        vec[1] += scale * (cur[1] - prev[1]) / (mag * mag);
+        vec[0] += (cur[0] - prev[0]) / (mag * mag);
+        vec[1] += (cur[1] - prev[1]) / (mag * mag);
       });
 
       copDeltas.push(vec);
@@ -186,7 +185,7 @@ var System = function(options) {
     robDeltas = helper.normalize(robDeltas);
 
     _.forEach(copDeltas, function(delta, index) {
-      cops[index].step([-delta[0], -delta[1]]);
+      cops[index].step([-1 * delta[0], -1 * delta[1]]);
     });
 
     _.forEach(robDeltas, function(delta, index) {
@@ -231,8 +230,8 @@ var helper = {
   },
   getDistance: function(pnt1, pnt2) {
     return Math.sqrt(
-      Math.pow(pnt1[0] - pnt2[0], 2) +
-      Math.pow(pnt1[1] - pnt2[1], 2)
+      Math.pow(pnt2[0] - pnt1[0], 2) +
+      Math.pow(pnt2[1] - pnt1[1], 2)
     );
   }
 };

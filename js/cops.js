@@ -9,8 +9,8 @@ var Cop = function(options) {
       min: 0,
       max: 100
     },
-    start : [0,0],
-    sentry : false
+    start: [0, 0],
+    sentry: false
   });
 
   var position = options.start,
@@ -18,7 +18,7 @@ var Cop = function(options) {
     sentry = options.sentry,
     dx = _.random(-speedRange, speedRange),
     dy = _.random(-speedRange, speedRange),
-    r = 5,
+    r = 7,
     opacity = 10,
     color = sentry ? 'rgba(100,204,0,' + opacity + ')' : 'rgba(0,204,0,' + opacity + ')',
     shadowColor = 'rgba(0,204,0,1)',
@@ -42,20 +42,20 @@ var Cop = function(options) {
 
     path.push(position);
 
-    if(path.length > 50)
+    if (path.length > 50)
       path = path.splice(1); //[1,2,3,4,5] => [2,3,4,5]
   };
 
   var step = function(delta) {
 
-    if(sentry) return; //sentries don't move
+    if (sentry) return; //sentries don't move
 
     futurePos = [position[0] + delta[0], position[1] + delta[1]];
 
-    // if (futurePos[0] > options.borderX.max || futurePos[0] < options.borderX.min)
-    //   delta[0] *= -1;
-    // if (futurePos[1] > options.borderY.max || futurePos[1] < options.borderY.min)
-    //   delta[1] *= -1;
+    if (futurePos[0] > options.borderX.max || futurePos[0] < options.borderX.min)
+      delta[0] *= -1;
+    if (futurePos[1] > options.borderY.max || futurePos[1] < options.borderY.min)
+      delta[1] *= -1;
 
     setPosition([position[0] + delta[0], position[1] + delta[1]]);
   };
@@ -80,9 +80,9 @@ var Cop = function(options) {
 
     context.lineWidth = 1;
     context.strokeStyle = color;
-    for(var i = 0 , length = path.length; i < length - 1 ; i++){
+    for (var i = 0, length = path.length; i < length - 1; i++) {
       context.moveTo(path[i][0] - r, path[i][1] - r);
-      context.lineTo(path[i+1][0] - r, path[i+1][1] - r);
+      context.lineTo(path[i + 1][0] - r, path[i + 1][1] - r);
     }
 
     context.stroke();
@@ -97,6 +97,8 @@ var Cop = function(options) {
     setPosition: setPosition,
     step: step,
     draw: draw,
-    isSentry: function() { return sentry; }
+    isSentry: function() {
+      return sentry;
+    }
   };
 };
