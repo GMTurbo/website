@@ -57,18 +57,19 @@ var Body = function(options) {
 
     futurePos = [position[0] + delta[0], position[1] + delta[1]];
 
-    if (TYPE == "robbers") {
+    //if (TYPE == "robber") {
       if (futurePos[0] > options.borderX.max || futurePos[0] < options.borderX.min)
         delta[0] *= -1;
       if (futurePos[1] > options.borderY.max || futurePos[1] < options.borderY.min)
         delta[1] *= -1;
-    }
-    setPosition([position[0] + delta[0], position[1] + delta[1]]);
+  //  }
+    var speed = (TYPE == "cop") ? 0.5 : 0.3;
+    setPosition([position[0] + speed*delta[0], position[1] + speed*delta[1]]);
   };
 
   var draw = function(context) {
 
-    if(sentry) return; //sentries don't show
+    if (sentry) return; //sentries don't show
 
     var pnt = getPosition();
 
