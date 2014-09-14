@@ -1,36 +1,56 @@
 var Robber = function(options) {
 
-  options = _.defaults(options,{
-    borderX: {min: 0, max: 100},
-    borderY: {min: 0, max: 100}
+  options = _.defaults(options, {
+    borderX: {
+      min: 0,
+      max: 100
+    },
+    borderY: {
+      min: 0,
+      max: 100
+    },
+    start: [0, 0]
   });
 
-  var position = [],
-    dx = _.random(-0.5, 0.5),
-    dy = _.random(-0.5, 0.5),
+  var position = options.start,
+    speedRange = 0.1,
+    dx = _.random(-speedRange, speedRange),
+    dy = _.random(-speedRange, speedRange),
     r = 5,
     opacity = 10,
     color = 'rgba(204,0,0,' + opacity + ')',
-    shadowColor = 'rgba(204,0,0,1)';
+    shadowColor = 'rgba(204,0,0,1)',
+    prevPosition = [position[0] - dx, position[1] - dy],
+    futurePos = [];
+
+  var getPrevPosition = function() {
+    return prevPosition;
+  };
 
   var getPosition = function() {
     return position;
   };
 
   var setPosition = function(newPos) {
+
+    prevPosition = position;
+
     position = newPos;
   };
 
-  var step = function() {
-    position[0] += dx;
-    position[1] += dy;
-    if(position[0] > options.borderX.max || position[0] < options.borderX.min)
-      dx*=-1;
-    if(position[1] > options.borderY.max || position[1] < options.borderY.min)
-      dy*=-1;
+  var step = function(delta) {
+
+    futurePos = [position[0] + delta[0], position[1] + delta[1]];
+
+    if (futurePos[0] > options.borderX.max || futurePos[0] < options.borderX.min)
+      delta[0] *= -1;
+    if (futurePos[1] > options.borderY.max || futurePos[1] < options.borderY.min)
+      delta[1] *= -1;
+
+    setPosition([position[0] + delta[0], position[1] + delta[1]]);
   };
 
-  var draw = function(context){
+  var draw = function(context) {
 
     var pnt = getPosition();
 
@@ -49,6 +69,7 @@ var Robber = function(options) {
   };
 
   return {
+    getPrevPosition: getPrevPosition,
     getPosition: getPosition,
     setPosition: setPosition,
     step: step,
