@@ -1,29 +1,3 @@
-$(document).ready(function() {
-
-  window.requestAnimationFrame = window.requestAnimationFrame ||
-    window.mozRequestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    window.msRequestAnimationFrame;
-
-  var system = new System({
-    width: $('#space').width(),
-    height: $('#space').height(),
-    density: 0.04,
-    canvas: document.getElementById('space-content'),
-    reqAnimationFrame: window.requestAnimationFrame
-  });
-
-  system.begin();
-
-  $(window).resize(function() {
-
-    system.resize({
-      width: $('#space').width(),
-      height: $('#space').height()
-    });
-
-  });
-});
 
 var System = function(options) {
 
@@ -65,18 +39,18 @@ var System = function(options) {
     for (var i = 0; i < count; i++) {
 
       //if ((i % 2) === 0) {
-        cops.push(new Cop({
-          borderX: {
-            min: 10,
-            max: width - 10
-          },
-          borderY: {
-            min: 10,
-            max: height - 10
-          },
-          start: helper.getRandomPnt(width, height)
-        }));
-     //}
+      cops.push(new Cop({
+        borderX: {
+          min: 10,
+          max: width - 10
+        },
+        borderY: {
+          min: 10,
+          max: height - 10
+        },
+        start: helper.getRandomPnt(width, height)
+      }));
+      //}
 
       robbers.push(new Robber({
         borderX: {
