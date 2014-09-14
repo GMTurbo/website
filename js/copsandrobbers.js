@@ -1,4 +1,3 @@
-
 var System = function(options) {
 
   options = _.defaults(options, {
@@ -148,23 +147,6 @@ var System = function(options) {
       robDeltas = [],
       scale = 1;
 
-    _.forEach(cops, function(cop) {
-
-      cur = cop.getPosition();
-      //calculate vector first
-      vec = [0, 0];
-
-      _.forEach(robbers, function(rob) {
-        prev = rob.getPosition();
-        mag = helper.getDistance(cur, prev);
-        vec[0] += scale * (cur[0] - prev[0]) / (mag * mag);
-        vec[1] += scale * (cur[1] - prev[1]) / (mag * mag);
-      });
-
-      copDeltas.push(vec);
-
-    });
-
     _.forEach(robbers, function(rob) {
 
       cur = rob.getPosition();
@@ -180,6 +162,23 @@ var System = function(options) {
       });
 
       robDeltas.push(vec);
+
+    });
+    
+    _.forEach(cops, function(cop) {
+
+      cur = cop.getPosition();
+      //calculate vector first
+      vec = [0, 0];
+
+      _.forEach(robbers, function(rob) {
+        prev = rob.getPosition();
+        mag = helper.getDistance(cur, prev);
+        vec[0] += scale * (cur[0] - prev[0]) / (mag * mag);
+        vec[1] += scale * (cur[1] - prev[1]) / (mag * mag);
+      });
+
+      copDeltas.push(vec);
 
     });
 
