@@ -24,12 +24,14 @@ var System = function(options) {
     context = canvas.getContext('2d');
 
   var cops = [],
-    robbers = [];
+    robbers = [],
+    entities = [];
 
   var setup = function() {
 
     cops = [];
     robbers = [];
+    entities = [];
 
     $(canvas).attr('width', width).attr('height', height);
 
@@ -37,8 +39,8 @@ var System = function(options) {
 
     for (var i = 0; i < count; i++) {
 
-      if ((i % 2) === 0) {
-        cops.push(new Cop({
+      if ((i % 10) === 0) {
+        entities.push(new Body({
           borderX: {
             min: 10,
             max: width - 10
@@ -47,11 +49,12 @@ var System = function(options) {
             min: 10,
             max: height - 10
           },
-          start: helper.getRandomPnt(width, height)
+          start: helper.getRandomPnt(width, height),
+          type: 'cop'
         }));
       }
 
-      robbers.push(new Robber({
+      entities.push(new Body({
         borderX: {
           min: 10,
           max: width - 10
@@ -60,67 +63,10 @@ var System = function(options) {
           min: 10,
           max: height - 10
         },
-        start: helper.getRandomPnt(width, height)
+        start: helper.getRandomPnt(width, height),
+        type: 'robber'
       }));
     }
-
-    //setup sentries
-
-    // for (var i = 0 ; i < width; i+=(width/200)) {
-    //   cops.push(new Cop({
-    //     borderX: {
-    //       min: 10,
-    //       max: width
-    //     },
-    //     borderY: {
-    //       min: 10,
-    //       max: height
-    //     },
-    //     sentry: true,
-    //     start: [i, 0]
-    //   }));
-    //
-    //   cops.push(new Cop({
-    //     borderX: {
-    //       min: 10,
-    //       max: width
-    //     },
-    //     borderY: {
-    //       min: 10,
-    //       max: height
-    //     },
-    //     sentry: true,
-    //     start: [i, height]
-    //   }));
-    // }
-    //
-    // for (var i = 0 ; i < height; i+=(height/200)) {
-    //   cops.push(new Cop({
-    //     borderX: {
-    //       min: 10,
-    //       max: width
-    //     },
-    //     borderY: {
-    //       min: 10,
-    //       max: height
-    //     },
-    //     sentry: true,
-    //     start: [0, i]
-    //   }));
-    //
-    //   cops.push(new Cop({
-    //     borderX: {
-    //       min: 10,
-    //       max: width
-    //     },
-    //     borderY: {
-    //       min: 10,
-    //       max: height
-    //     },
-    //     sentry: true,
-    //     start: [width, i]
-    //   }));
-    // }
 
     updateSystem();
   };
@@ -145,6 +91,9 @@ var System = function(options) {
       mag,
       copDeltas = [],
       robDeltas = [];
+
+      robbers = _.filter(entities, function(ent) { return ent.getType() == 'robber';});
+      cops = _.filter(entities, function(ent) { return ent.getType() == 'cop';});
 
     _.forEach(robbers, function(rob) {
 
@@ -175,6 +124,8 @@ var System = function(options) {
         mag = helper.getDistance(cur, prev);
         vec[0] += (cur[0] - prev[0]) / (mag * mag);
         vec[1] += (cur[1] - prev[1]) / (mag * mag);
+        if(mag < 20)
+          rob.setType("cop");
       });
 
       copDeltas.push(vec);
