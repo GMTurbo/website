@@ -37,19 +37,19 @@ var System = function(options) {
 
     for (var i = 0; i < count; i++) {
 
-      //if ((i % 2) === 0) {
-      cops.push(new Cop({
-        borderX: {
-          min: 10,
-          max: width - 10
-        },
-        borderY: {
-          min: 10,
-          max: height - 10
-        },
-        start: helper.getRandomPnt(width, height)
-      }));
-      //}
+      if ((i % 2) === 0) {
+        cops.push(new Cop({
+          borderX: {
+            min: 10,
+            max: width - 10
+          },
+          borderY: {
+            min: 10,
+            max: height - 10
+          },
+          start: helper.getRandomPnt(width, height)
+        }));
+      }
 
       robbers.push(new Robber({
         borderX: {
@@ -185,11 +185,11 @@ var System = function(options) {
     robDeltas = helper.normalize(robDeltas);
 
     _.forEach(copDeltas, function(delta, index) {
-      cops[index].step([-1 * delta[0], -1 * delta[1]]);
+      cops[index].step(helper.normalizeVector([-1 * delta[0], -1 * delta[1]]));
     });
 
     _.forEach(robDeltas, function(delta, index) {
-      robbers[index].step(delta);
+      robbers[index].step(helper.normalizeVector(delta));
     });
   };
 
@@ -227,6 +227,12 @@ var helper = {
     return _.map(arr, function(ent) {
       return [ent[0] / maxX[0], ent[1] / maxY[1]];
     });
+  },
+  normalizeVector: function(vec) {
+    var mag = Math.sqrt((vec[0] * vec[0]) + (vec[1] * vec[1]));
+    vec[0] /= mag;
+    vec[1] /= mag;
+    return vec;
   },
   getDistance: function(pnt1, pnt2) {
     return Math.sqrt(
