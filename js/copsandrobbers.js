@@ -42,12 +42,12 @@ var System = function(options) {
       if ((i % 10) === 0) {
         entities.push(new Body({
           borderX: {
-            min: 10,
-            max: width - 10
+            min: 0,
+            max: width
           },
           borderY: {
-            min: 10,
-            max: height - 10
+            min: 0,
+            max: height
           },
           start: helper.getRandomPnt(width, height),
           type: 'cop'
@@ -56,12 +56,12 @@ var System = function(options) {
 
       entities.push(new Body({
         borderX: {
-          min: 10,
-          max: width - 10
+          min: 0,
+          max: width
         },
         borderY: {
-          min: 10,
-          max: height - 10
+          min: 0,
+          max: height
         },
         start: helper.getRandomPnt(width, height),
         type: 'robber'
@@ -95,6 +95,11 @@ var System = function(options) {
       robbers = _.filter(entities, function(ent) { return ent.getType() == 'robber';});
       cops = _.filter(entities, function(ent) { return ent.getType() == 'cop';});
 
+      if(robbers.length === 0){
+        setup();
+        return;
+      }
+
     _.forEach(robbers, function(rob) {
 
       cur = rob.getPosition();
@@ -124,7 +129,7 @@ var System = function(options) {
         mag = helper.getDistance(cur, prev);
         vec[0] += (cur[0] - prev[0]) / (mag * mag);
         vec[1] += (cur[1] - prev[1]) / (mag * mag);
-        if(mag < 20)
+        if(helper.getDistance(cop.getPosition(), rob.getPosition()) < 10)
           rob.setType("cop");
       });
 
@@ -140,7 +145,7 @@ var System = function(options) {
     });
 
     _.forEach(robDeltas, function(delta, index) {
-      robbers[index].step(helper.normalizeVector(delta));
+      robbers[index].step(helper.normalizeVector([1 * delta[0], 1 * delta[1]]));
     });
   };
 
@@ -165,7 +170,8 @@ var System = function(options) {
 
 var helper = {
   getRandomPnt: function(xRange, yRange) {
-    return [_.random(xRange), _.random(yRange)];
+    var spacer = 200;
+    return [_.random(spacer, xRange-spacer), _.random(spacer,yRange-spacer)];
   },
   //normalize array to be between 0-1
   normalize: function(arr) {

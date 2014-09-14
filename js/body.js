@@ -24,15 +24,20 @@ var Body = function(options) {
     tailLength = 100,
     opacity = 10,
     copColor = 'rgba(204,0,0,' + opacity + ')',
-    copShadowColor = 'rgba(204,0,0,1)',
+    copShadowColor = 'rgba(204,255,0,1)',
     robColor = 'rgba(0,204,0,' + opacity + ')',
     robShadowColor = 'rgba(0,204,0,1)',
     prevPosition = [position[0] - dx, position[1] - dy],
     futurePos = [],
+    universlPos = options.start,
     path = [];
 
   var getPrevPosition = function() {
     return prevPosition;
+  };
+
+  var getCalcPosition = function() {
+    return universlPos;
   };
 
   var getPosition = function() {
@@ -51,20 +56,32 @@ var Body = function(options) {
       path = path.splice(1); //[1,2,3,4,5] => [2,3,4,5]
   };
 
+  var speed = 0,
+    offset = 10;
+
   var step = function(delta) {
 
     if (sentry) return; //sentries don't move
 
-    futurePos = [position[0] + delta[0], position[1] + delta[1]];
+    speed = (TYPE == "cop") ? 1 : 0.3;
+
+    universlPos[0] += speed * delta[0];
+    universlPos[1] += speed * delta[1];
+
+    futurePos = [position[0] + speed * delta[0], position[1] + speed * delta[1]];
 
     //if (TYPE == "robber") {
-      if (futurePos[0] > options.borderX.max || futurePos[0] < options.borderX.min)
-        delta[0] *= -1;
-      if (futurePos[1] > options.borderY.max || futurePos[1] < options.borderY.min)
-        delta[1] *= -1;
-  //  }
-    var speed = (TYPE == "cop") ? 0.5 : 0.3;
-    setPosition([position[0] + speed*delta[0], position[1] + speed*delta[1]]);
+      // if (futurePos[0] > options.borderX.max)
+      //   futurePos[0] = futurePos[0] % options.borderX.max;
+      // if (futurePos[0] < options.borderX.min)
+      //   futurePos[0] = options.borderX.max - futurePos[0];
+      // if (futurePos[1] > options.borderY.max)
+      //   futurePos[1] = futurePos[1] % options.borderY.max;
+      // if (futurePos[1] < options.borderY.min)
+      //   futurePos[1] = options.borderY.max - position[1];
+    //}
+
+    setPosition(futurePos);
   };
 
   var draw = function(context) {
@@ -102,6 +119,7 @@ var Body = function(options) {
     getPrevPosition: getPrevPosition,
     getPosition: getPosition,
     setPosition: setPosition,
+    getCalcPosition: getCalcPosition,
     step: step,
     draw: draw,
     getType: function() {
