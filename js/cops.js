@@ -18,12 +18,13 @@ var Cop = function(options) {
     sentry = options.sentry,
     dx = _.random(-speedRange, speedRange),
     dy = _.random(-speedRange, speedRange),
-    r = 10,
+    r = 5,
     opacity = 10,
     color = sentry ? 'rgba(100,204,0,' + opacity + ')' : 'rgba(0,204,0,' + opacity + ')',
     shadowColor = 'rgba(0,204,0,1)',
     prevPosition = [position[0] - dx, position[1] - dy],
-    futurePos = [];
+    futurePos = [],
+    path = [];
 
   var getPrevPosition = function() {
     return prevPosition;
@@ -39,6 +40,10 @@ var Cop = function(options) {
 
     position = newPos;
 
+    path.push(position);
+
+    if(path.length > 50)
+      path = path.splice(1); //[1,2,3,4,5] => [2,3,4,5]
   };
 
   var step = function(delta) {
@@ -72,6 +77,17 @@ var Cop = function(options) {
     context.shadowOffsetY = 0;
     context.shadowBlur = 10;
     context.fill();
+
+    context.lineWidth = 1;
+    context.strokeStyle = color;
+    for(var i = 0 , length = path.length; i < length - 1 ; i++){
+      context.moveTo(path[i][0] - r, path[i][1] - r);
+      context.lineTo(path[i+1][0] - r, path[i+1][1] - r);
+    }
+
+    context.stroke();
+
+    context.closePath();
 
   };
 
