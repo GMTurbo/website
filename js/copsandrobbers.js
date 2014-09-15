@@ -64,7 +64,7 @@ var System = function(options) {
 
   var insertCops = function() {
 
-    var count = 5;
+    var count = isMobile ? 2 : 5;
 
     for (var i = 0; i < count; i++) {
 
