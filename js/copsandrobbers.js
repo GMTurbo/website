@@ -70,7 +70,7 @@ var System = function(options) {
         max: height
       },
       start: [0, 0],
-      sentry: true,
+      //sentry: true,
       type: 'cop'
     }));
 
@@ -84,7 +84,7 @@ var System = function(options) {
         max: height
       },
       start: [0, height],
-      sentry: true,
+      //sentry: true,
       type: 'cop'
     }));
 
@@ -98,7 +98,7 @@ var System = function(options) {
         max: height
       },
       start: [width, 0],
-      sentry: true,
+      //sentry: true,
       type: 'cop'
     }));
 
@@ -112,70 +112,70 @@ var System = function(options) {
         max: height
       },
       start: [width, height],
-      sentry: true,
+      //sentry: true,
       type: 'cop'
     }));
 
-    var count = 40;
-
-    for(var i=0; i < count ; i++){
-
-      entities.push(new Body({
-        borderX: {
-          min: 0,
-          max: width
-        },
-        borderY: {
-          min: 0,
-          max: height
-        },
-        start: [i * width/count, 0],
-        sentry: true,
-        type: 'cop'
-      }));
-
-      entities.push(new Body({
-        borderX: {
-          min: 0,
-          max: width
-        },
-        borderY: {
-          min: 0,
-          max: height
-        },
-        start: [i * width/count, height],
-        sentry: true,
-        type: 'cop'
-      }));
-
-      entities.push(new Body({
-        borderX: {
-          min: 0,
-          max: width
-        },
-        borderY: {
-          min: 0,
-          max: height
-        },
-        start: [0, i * height/count],
-        sentry: true,
-        type: 'cop'
-      }));
-
-      entities.push(new Body({
-        borderX: {
-          min: 0,
-          max: width
-        },
-        borderY: {
-          min: 0,
-          max: height
-        },
-        start: [width, i * height/count],
-        sentry: true,
-        type: 'cop'
-      }));
-    }
+    // var count = 40;
+    //
+    // for(var i=0; i < count ; i++){
+    //
+    //   entities.push(new Body({
+    //     borderX: {
+    //       min: 0,
+    //       max: width
+    //     },
+    //     borderY: {
+    //       min: 0,
+    //       max: height
+    //     },
+    //     start: [i * width/count, 0],
+    //     sentry: true,
+    //     type: 'cop'
+    //   }));
+    //
+    //   entities.push(new Body({
+    //     borderX: {
+    //       min: 0,
+    //       max: width
+    //     },
+    //     borderY: {
+    //       min: 0,
+    //       max: height
+    //     },
+    //     start: [i * width/count, height],
+    //     sentry: true,
+    //     type: 'cop'
+    //   }));
+    //
+    //   entities.push(new Body({
+    //     borderX: {
+    //       min: 0,
+    //       max: width
+    //     },
+    //     borderY: {
+    //       min: 0,
+    //       max: height
+    //     },
+    //     start: [0, i * height/count],
+    //     sentry: true,
+    //     type: 'cop'
+    //   }));
+    //
+    //   entities.push(new Body({
+    //     borderX: {
+    //       min: 0,
+    //       max: width
+    //     },
+    //     borderY: {
+    //       min: 0,
+    //       max: height
+    //     },
+    //     start: [width, i * height/count],
+    //     sentry: true,
+    //     type: 'cop'
+    //   }));
+    // }
   };
 
   var resize = function(size) {
@@ -280,7 +280,7 @@ var System = function(options) {
 
 var helper = {
   getRandomPnt: function(xRange, yRange) {
-    var spacer = 100;
+    var spacer = 150;
     return [_.random(spacer, xRange - spacer), _.random(spacer, yRange - spacer)];
   },
   normalizeVector: function(vec) {
