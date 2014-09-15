@@ -24,7 +24,8 @@ var System = function(options) {
     reqFrame = options.reqAnimationFrame,
     context = canvas.getContext('2d'),
     initialSetup = true,
-    isMobile = options.isMobile;
+    isMobile = options.isMobile,
+    getRadiusByBrowser = function(){ return isMobile ? 15 : 6; };
 
   var entities = [];
 
@@ -51,7 +52,7 @@ var System = function(options) {
         },
         start: helper.getRandomPnt(width, height, 150),
         type: 'robber',
-        radius: isMobile ? 10 : 5
+        radius: getRadiusByBrowser()
       }));
     }
 
@@ -62,120 +63,6 @@ var System = function(options) {
   };
 
   var insertCops = function() {
-
-    // entities.push(new Body({
-    //   borderX: {
-    //     min: 0,
-    //     max: width
-    //   },
-    //   borderY: {
-    //     min: 0,
-    //     max: height
-    //   },
-    //   start: [0, 0],
-    //   sentry: true,
-    //   type: 'cop'
-    // }));
-    //
-    // entities.push(new Body({
-    //   borderX: {
-    //     min: 0,
-    //     max: width
-    //   },
-    //   borderY: {
-    //     min: 0,
-    //     max: height
-    //   },
-    //   start: [0, height],
-    //   sentry: true,
-    //   type: 'cop'
-    // }));
-    //
-    // entities.push(new Body({
-    //   borderX: {
-    //     min: 0,
-    //     max: width
-    //   },
-    //   borderY: {
-    //     min: 0,
-    //     max: height
-    //   },
-    //   start: [width, 0],
-    //   sentry: true,
-    //   type: 'cop'
-    // }));
-    //
-    // entities.push(new Body({
-    //   borderX: {
-    //     min: 0,
-    //     max: width
-    //   },
-    //   borderY: {
-    //     min: 0,
-    //     max: height
-    //   },
-    //   start: [width, height],
-    //   sentry: true,
-    //   type: 'cop'
-    // }));
-    //
-    // entities.push(new Body({
-    //   borderX: {
-    //     min: 0,
-    //     max: width
-    //   },
-    //   borderY: {
-    //     min: 0,
-    //     max: height
-    //   },
-    //   start: [0, height / 2],
-    //   sentry: true,
-    //   type: 'cop'
-    // }));
-    //
-    // entities.push(new Body({
-    //   borderX: {
-    //     min: 0,
-    //     max: width
-    //   },
-    //   borderY: {
-    //     min: 0,
-    //     max: height
-    //   },
-    //   start: [width, height / 2],
-    //   sentry: true,
-    //   type: 'cop'
-    // }));
-    //
-    // entities.push(new Body({
-    //   borderX: {
-    //     min: 0,
-    //     max: width
-    //   },
-    //   borderY: {
-    //     min: 0,
-    //     max: height
-    //   },
-    //   start: [width / 2, 0],
-    //   sentry: true,
-    //   type: 'cop'
-    // }));
-    //
-    // entities.push(new Body({
-    //   borderX: {
-    //     min: 0,
-    //     max: width
-    //   },
-    //   borderY: {
-    //     min: 0,
-    //     max: height
-    //   },
-    //   start: [width / 2, height],
-    //   sentry: true,
-    //   type: 'cop'
-    // }));
-
-    //return;
 
     var count = 5;
 
@@ -193,7 +80,7 @@ var System = function(options) {
         start: [i * width / count, 0],
       //  sentry: true,
         type: 'cop',
-        radius: isMobile ? 10 : 5
+        radius: getRadiusByBrowser()
       }));
 
       entities.push(new Body({
@@ -208,7 +95,7 @@ var System = function(options) {
         start: [i * width / count, height],
       //  sentry: true,
         type: 'cop',
-        radius: isMobile ? 10 : 5
+        radius: getRadiusByBrowser()
       }));
 
       entities.push(new Body({
@@ -223,7 +110,7 @@ var System = function(options) {
         start: [0, i * height / count],
       //  sentry: true,
         type: 'cop',
-        radius: isMobile ? 10 : 5
+        radius: getRadiusByBrowser()
       }));
 
       entities.push(new Body({
@@ -238,7 +125,7 @@ var System = function(options) {
         start: [width, i * height / count],
       //  sentry: true,
         type: 'cop',
-        radius: isMobile ? 10 : 5
+        radius: getRadiusByBrowser()
       }));
     }
   };
@@ -295,8 +182,6 @@ var System = function(options) {
       _.forEach(closestCops, function(cop) {
         other = cop.getPosition();
         mag = helper.getDistance(self, other);
-        // if (cop.isSentry())
-        //   mag *= 1e-5;
         vec[0] += (self[0] - other[0]) / (mag * mag);
         vec[1] += (self[1] - other[1]) / (mag * mag);
       });
@@ -318,13 +203,12 @@ var System = function(options) {
       _.forEach(closestRobbers, function(rob) {
         other = rob.getPosition();
         mag = helper.getDistance(self, other);
-        // if (cop.isSentry())
-        //   mag *= 1e6;
         vec[0] += (other[0] - self[0]) / (mag * mag); //reverse vector direction
         vec[1] += (other[1] - self[1]) / (mag * mag); //reverse vector direction
         if (helper.getDistance(self, other) < rob.getRadius() * 2)
           rob.setType("cop");
       });
+
       cop.step(helper.normalizeVector(vec));
     });
   };
@@ -351,7 +235,7 @@ var System = function(options) {
       },
       start: [coords.x, coords.y],
       type: 'cop',
-      radius: isMobile ? 10 : 5
+      radius: getRadiusByBrowser()
     });
   };
 
