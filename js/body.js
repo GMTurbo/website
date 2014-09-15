@@ -15,19 +15,15 @@ var Body = function(options) {
   });
 
   var position = options.start,
-    speedRange = 0.1,
     sentry = options.sentry,
     TYPE = options.type,
-    dx = _.random(-speedRange, speedRange),
-    dy = _.random(-speedRange, speedRange),
-    r = 7,
-    tailLength = 100,
+    r = 3,
+    tailLength = 25,
     opacity = 10,
-    copColor = 'rgba(204,0,0,' + opacity + ')',
-    copShadowColor = 'rgba(204,255,0,1)',
-    robColor = 'rgba(0,204,0,' + opacity + ')',
-    robShadowColor = 'rgba(0,204,0,1)',
-    prevPosition = [position[0] - dx, position[1] - dy],
+    copColor = 'rgba(171,241,55,' + opacity + ')',
+    copShadowColor = 'rgba(0,0,0,1)',
+    robColor = 'rgba(254,255,189,' + opacity + ')',
+    robShadowColor = 'rgba(0,0,0,1)',
     futurePos = [],
     universlPos = options.start,
     path = [];
@@ -63,7 +59,7 @@ var Body = function(options) {
 
     if (sentry) return; //sentries don't move
 
-    speed = (TYPE == "cop") ? 1 : 0.3;
+    speed = (TYPE == "cop") ? 2 : 0.1;
 
     universlPos[0] += speed * delta[0];
     universlPos[1] += speed * delta[1];
@@ -116,7 +112,6 @@ var Body = function(options) {
   };
 
   return {
-    getPrevPosition: getPrevPosition,
     getPosition: getPosition,
     setPosition: setPosition,
     getCalcPosition: getCalcPosition,
@@ -127,6 +122,9 @@ var Body = function(options) {
     },
     setType: function(val) {
       TYPE = val;
+    },
+    getRadius: function(){
+      return r;
     }
   };
 };

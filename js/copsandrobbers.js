@@ -35,24 +35,11 @@ var System = function(options) {
 
     $(canvas).attr('width', width).attr('height', height);
 
+    insertCops();
+
     var count = density * width;
 
     for (var i = 0; i < count; i++) {
-
-      if ((i % 10) === 0) {
-        entities.push(new Body({
-          borderX: {
-            min: 0,
-            max: width
-          },
-          borderY: {
-            min: 0,
-            max: height
-          },
-          start: helper.getRandomPnt(width, height),
-          type: 'cop'
-        }));
-      }
 
       entities.push(new Body({
         borderX: {
@@ -69,6 +56,61 @@ var System = function(options) {
     }
 
     updateSystem();
+  };
+
+  var insertCops = function(){
+
+    entities.push(new Body({
+      borderX: {
+        min: 0,
+        max: width
+      },
+      borderY: {
+        min: 0,
+        max: height
+      },
+      start: [0, 0],
+      type: 'cop'
+    }));
+
+    entities.push(new Body({
+      borderX: {
+        min: 0,
+        max: width
+      },
+      borderY: {
+        min: 0,
+        max: height
+      },
+      start: [0, height],
+      type: 'cop'
+    }));
+
+    entities.push(new Body({
+      borderX: {
+        min: 0,
+        max: width
+      },
+      borderY: {
+        min: 0,
+        max: height
+      },
+      start: [width, 0],
+      type: 'cop'
+    }));
+
+    entities.push(new Body({
+      borderX: {
+        min: 0,
+        max: width
+      },
+      borderY: {
+        min: 0,
+        max: height
+      },
+      start: [width, height],
+      type: 'cop'
+    }));
   };
 
   var resize = function(size) {
@@ -92,13 +134,20 @@ var System = function(options) {
       copDeltas = [],
       robDeltas = [];
 
-      robbers = _.filter(entities, function(ent) { return ent.getType() == 'robber';});
-      cops = _.filter(entities, function(ent) { return ent.getType() == 'cop';});
+    //get all the robbers
+    robbers = _.filter(entities, function(ent) {
+      return ent.getType() == 'robber';
+    });
 
-      if(robbers.length === 0){
-        setup();
-        return;
-      }
+    //get all the cops
+    cops = _.filter(entities, function(ent) {
+      return ent.getType() == 'cop';
+    });
+
+    if (robbers.length === 0) {
+      setup();
+      return;
+    }
 
     _.forEach(robbers, function(rob) {
 
@@ -129,7 +178,7 @@ var System = function(options) {
         mag = helper.getDistance(cur, prev);
         vec[0] += (cur[0] - prev[0]) / (mag * mag);
         vec[1] += (cur[1] - prev[1]) / (mag * mag);
-        if(helper.getDistance(cop.getPosition(), rob.getPosition()) < 10)
+        if (helper.getDistance(cop.getPosition(), rob.getPosition()) < rob.getRadius()*2)
           rob.setType("cop");
       });
 
@@ -137,15 +186,12 @@ var System = function(options) {
 
     });
 
-    copDeltas = helper.normalize(copDeltas);
-    robDeltas = helper.normalize(robDeltas);
-
     _.forEach(copDeltas, function(delta, index) {
       cops[index].step(helper.normalizeVector([-1 * delta[0], -1 * delta[1]]));
     });
 
     _.forEach(robDeltas, function(delta, index) {
-      robbers[index].step(helper.normalizeVector([1 * delta[0], 1 * delta[1]]));
+      robbers[index].step(helper.normalizeVector(delta));
     });
   };
 
@@ -170,20 +216,8 @@ var System = function(options) {
 
 var helper = {
   getRandomPnt: function(xRange, yRange) {
-    var spacer = 200;
-    return [_.random(spacer, xRange-spacer), _.random(spacer,yRange-spacer)];
-  },
-  //normalize array to be between 0-1
-  normalize: function(arr) {
-    var maxX = _.max(arr, function(el) {
-      return el[0];
-    });
-    var maxY = _.max(arr, function(el) {
-      return el[1];
-    });
-    return _.map(arr, function(ent) {
-      return [ent[0] / maxX[0], ent[1] / maxY[1]];
-    });
+    var spacer = 100;
+    return [_.random(spacer, xRange - spacer), _.random(spacer, yRange - spacer)];
   },
   normalizeVector: function(vec) {
     var mag = Math.sqrt((vec[0] * vec[0]) + (vec[1] * vec[1]));

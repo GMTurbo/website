@@ -8,7 +8,7 @@ $(document).ready(function() {
   var system = new System({
     width: $('#space').width(),
     height: $('#space').height(),
-    density: 0.1,
+    density: 0.05,
     canvas: document.getElementById('space-content'),
     reqAnimationFrame: window.requestAnimationFrame
   });
