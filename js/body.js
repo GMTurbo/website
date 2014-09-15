@@ -11,13 +11,14 @@ var Body = function(options) {
     },
     start: [0, 0],
     sentry: false,
-    type: 'cop'
+    type: 'cop',
+    radius: 5
   });
 
   var position = options.start,
     sentry = options.sentry,
     TYPE = options.type,
-    r = 3,
+    r = options.radius,
     tailLength = 15,
     opacity = 10,
     copColor = 'rgba(171,241,55,' + opacity + ')',

@@ -3,7 +3,8 @@ var System = function(options) {
   options = _.defaults(options, {
     density: 0.1,
     width: 100,
-    height: 100
+    height: 100,
+    isMobile: false
   });
 
   if (!options.canvas) {
@@ -22,7 +23,8 @@ var System = function(options) {
     density = options.density,
     reqFrame = options.reqAnimationFrame,
     context = canvas.getContext('2d'),
-    initialSetup = true;
+    initialSetup = true,
+    isMobile = options.isMobile;
 
   var entities = [];
 
@@ -48,7 +50,8 @@ var System = function(options) {
           max: height
         },
         start: helper.getRandomPnt(width, height, 150),
-        type: 'robber'
+        type: 'robber',
+        radius: isMobile ? 10 : 5
       }));
     }
 
@@ -189,7 +192,8 @@ var System = function(options) {
         },
         start: [i * width / count, 0],
       //  sentry: true,
-        type: 'cop'
+        type: 'cop',
+        radius: isMobile ? 10 : 5
       }));
 
       entities.push(new Body({
@@ -203,7 +207,8 @@ var System = function(options) {
         },
         start: [i * width / count, height],
       //  sentry: true,
-        type: 'cop'
+        type: 'cop',
+        radius: isMobile ? 10 : 5
       }));
 
       entities.push(new Body({
@@ -217,7 +222,8 @@ var System = function(options) {
         },
         start: [0, i * height / count],
       //  sentry: true,
-        type: 'cop'
+        type: 'cop',
+        radius: isMobile ? 10 : 5
       }));
 
       entities.push(new Body({
@@ -231,7 +237,8 @@ var System = function(options) {
         },
         start: [width, i * height / count],
       //  sentry: true,
-        type: 'cop'
+        type: 'cop',
+        radius: isMobile ? 10 : 5
       }));
     }
   };
@@ -343,7 +350,8 @@ var System = function(options) {
         max: height
       },
       start: [coords.x, coords.y],
-      type: 'cop'
+      type: 'cop',
+      radius: isMobile ? 10 : 5
     });
   };
 

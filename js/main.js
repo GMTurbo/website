@@ -31,7 +31,8 @@ $(document).ready(function() {
     height: $('#space').height(),
     density: isMobile.any() ? 0.05 : 0.25,
     canvas: document.getElementById('space-content'),
-    reqAnimationFrame: window.requestAnimationFrame
+    reqAnimationFrame: window.requestAnimationFrame,
+    isMobile: isMobile.any()
   });
 
   system.begin();
