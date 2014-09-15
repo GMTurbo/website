@@ -120,6 +120,62 @@ var System = function(options) {
       type: 'cop'
     }));
 
+    entities.push(new Body({
+      borderX: {
+        min: 0,
+        max: width
+      },
+      borderY: {
+        min: 0,
+        max: height
+      },
+      start: [0, height/2],
+      //sentry: true,
+      type: 'cop'
+    }));
+
+    entities.push(new Body({
+      borderX: {
+        min: 0,
+        max: width
+      },
+      borderY: {
+        min: 0,
+        max: height
+      },
+      start: [width, height/2],
+      //sentry: true,
+      type: 'cop'
+    }));
+
+    entities.push(new Body({
+      borderX: {
+        min: 0,
+        max: width
+      },
+      borderY: {
+        min: 0,
+        max: height
+      },
+      start: [width/2, 0],
+      //sentry: true,
+      type: 'cop'
+    }));
+
+    entities.push(new Body({
+      borderX: {
+        min: 0,
+        max: width
+      },
+      borderY: {
+        min: 0,
+        max: height
+      },
+      start: [width/2, height],
+      //sentry: true,
+      type: 'cop'
+    }));
+
     // var count = 40;
     //
     // for(var i=0; i < count ; i++){
@@ -196,12 +252,10 @@ var System = function(options) {
 
   var updateEntities = function() {
 
-    var cur = [],
-      prev = [],
+    var self = [],
+      other = [],
       vec = [],
-      mag,
-      copDeltas = [],
-      robDeltas = [];
+      mag;
 
     //get all the robbers
     robbers = _.filter(entities, function(ent) {
@@ -220,46 +274,36 @@ var System = function(options) {
 
     _.forEach(robbers, function(rob) {
 
-      cur = rob.getPosition();
+      self = rob.getPosition();
       //calculate vector first
       vec = [0, 0];
 
       _.forEach(cops, function(cop) {
-        prev = cop.getPosition();
-        mag = helper.getDistance(cur, prev);
-        vec[0] += (cur[0] - prev[0]) / (mag * mag);
-        vec[1] += (cur[1] - prev[1]) / (mag * mag);
+        other = cop.getPosition();
+        mag = helper.getDistance(self, other);
+        vec[0] += (self[0] - other[0]) / (mag * mag);
+        vec[1] += (self[1] - other[1]) / (mag * mag);
       });
 
-      robDeltas.push(vec);
+      rob.step(helper.normalizeVector(vec));
 
     });
 
     _.forEach(cops, function(cop) {
 
-      cur = cop.getPosition();
+      self = cop.getPosition();
       //calculate vector first
       vec = [0, 0];
 
       _.forEach(robbers, function(rob) {
-        prev = rob.getPosition();
-        mag = helper.getDistance(cur, prev);
-        vec[0] += (cur[0] - prev[0]) / (mag * mag);
-        vec[1] += (cur[1] - prev[1]) / (mag * mag);
-        if (helper.getDistance(cop.getPosition(), rob.getPosition()) < rob.getRadius() * 2)
+        other = rob.getPosition();
+        mag = helper.getDistance(self, other);
+        vec[0] += (self[0] - other[0]) / (mag * mag);
+        vec[1] += (self[1] - other[1]) / (mag * mag);
+        if (helper.getDistance(self, other) < rob.getRadius() * 2)
           rob.setType("cop");
       });
-
-      copDeltas.push(vec);
-
-    });
-
-    _.forEach(copDeltas, function(delta, index) {
-      cops[index].step(helper.normalizeVector([-1 * delta[0], -1 * delta[1]]));
-    });
-
-    _.forEach(robDeltas, function(delta, index) {
-      robbers[index].step(helper.normalizeVector(delta));
+      cop.step(helper.normalizeVector([-1 * vec[0], -1 * vec[1]]));
     });
   };
 
