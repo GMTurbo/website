@@ -21,7 +21,8 @@ var System = function(options) {
     height = options.height,
     density = options.density,
     reqFrame = options.reqAnimationFrame,
-    context = canvas.getContext('2d');
+    context = canvas.getContext('2d'),
+    initialSetup = true;
 
   var cops = [],
     robbers = [],
@@ -55,10 +56,13 @@ var System = function(options) {
       }));
     }
 
-    updateSystem();
+    if (initialSetup) {
+      updateSystem();
+      initialSetup = false;
+    }
   };
 
-  var insertCops = function(){
+  var insertCops = function() {
 
     entities.push(new Body({
       borderX: {
@@ -242,7 +246,7 @@ var System = function(options) {
         mag = helper.getDistance(cur, prev);
         vec[0] += (cur[0] - prev[0]) / (mag * mag);
         vec[1] += (cur[1] - prev[1]) / (mag * mag);
-        if (helper.getDistance(cop.getPosition(), rob.getPosition()) < rob.getRadius()*2)
+        if (helper.getDistance(cop.getPosition(), rob.getPosition()) < rob.getRadius() * 2)
           rob.setType("cop");
       });
 
