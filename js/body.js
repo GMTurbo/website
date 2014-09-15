@@ -52,14 +52,11 @@ var Body = function(options) {
       path = path.splice(1); //[1,2,3,4,5] => [2,3,4,5]
   };
 
-  var speed = 0,
-    offset = 10;
-
   var step = function(delta) {
 
     if (sentry) return; //sentries don't move
 
-    speed = (TYPE == "cop") ? 2 : 0.1;
+    var speed = (TYPE == "cop") ? 5 : 0.25;
 
     universlPos[0] += speed * delta[0];
     universlPos[1] += speed * delta[1];
@@ -67,14 +64,14 @@ var Body = function(options) {
     futurePos = [position[0] + speed * delta[0], position[1] + speed * delta[1]];
 
     //if (TYPE == "robber") {
-      // if (futurePos[0] > options.borderX.max)
-      //   futurePos[0] = futurePos[0] % options.borderX.max;
-      // if (futurePos[0] < options.borderX.min)
-      //   futurePos[0] = options.borderX.max - futurePos[0];
-      // if (futurePos[1] > options.borderY.max)
-      //   futurePos[1] = futurePos[1] % options.borderY.max;
-      // if (futurePos[1] < options.borderY.min)
-      //   futurePos[1] = options.borderY.max - position[1];
+    // if (futurePos[0] > options.borderX.max)
+    //   futurePos[0] = futurePos[0] % options.borderX.max;
+    // if (futurePos[0] < options.borderX.min)
+    //   futurePos[0] = options.borderX.max - futurePos[0];
+    // if (futurePos[1] > options.borderY.max)
+    //   futurePos[1] = futurePos[1] % options.borderY.max;
+    // if (futurePos[1] < options.borderY.min)
+    //   futurePos[1] = options.borderY.max - position[1];
     //}
 
     setPosition(futurePos);
@@ -123,7 +120,7 @@ var Body = function(options) {
     setType: function(val) {
       TYPE = val;
     },
-    getRadius: function(){
+    getRadius: function() {
       return r;
     }
   };

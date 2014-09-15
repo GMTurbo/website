@@ -24,14 +24,10 @@ var System = function(options) {
     context = canvas.getContext('2d'),
     initialSetup = true;
 
-  var cops = [],
-    robbers = [],
-    entities = [];
+  var entities = [];
 
   var setup = function() {
 
-    cops = [];
-    robbers = [];
     entities = [];
 
     $(canvas).attr('width', width).attr('height', height);
@@ -74,9 +70,11 @@ var System = function(options) {
         max: height
       },
       start: [0, 0],
-      //sentry: true,
+      sentry: true,
       type: 'cop'
     }));
+
+    return;
 
     entities.push(new Body({
       borderX: {
@@ -129,7 +127,7 @@ var System = function(options) {
         min: 0,
         max: height
       },
-      start: [0, height/2],
+      start: [0, height / 2],
       //sentry: true,
       type: 'cop'
     }));
@@ -143,7 +141,7 @@ var System = function(options) {
         min: 0,
         max: height
       },
-      start: [width, height/2],
+      start: [width, height / 2],
       //sentry: true,
       type: 'cop'
     }));
@@ -157,7 +155,7 @@ var System = function(options) {
         min: 0,
         max: height
       },
-      start: [width/2, 0],
+      start: [width / 2, 0],
       //sentry: true,
       type: 'cop'
     }));
@@ -171,7 +169,7 @@ var System = function(options) {
         min: 0,
         max: height
       },
-      start: [width/2, height],
+      start: [width / 2, height],
       //sentry: true,
       type: 'cop'
     }));
@@ -257,13 +255,17 @@ var System = function(options) {
       vec = [],
       mag;
 
+    if (mouseCop && !mcInserted) {
+      entities.push(mouseCop);
+      mcInserted = true;
+    }
     //get all the robbers
-    robbers = _.filter(entities, function(ent) {
+    var robbers = _.filter(entities, function(ent) {
       return ent.getType() == 'robber';
     });
 
     //get all the cops
-    cops = _.filter(entities, function(ent) {
+    var cops = _.filter(entities, function(ent) {
       return ent.getType() == 'cop';
     });
 
@@ -298,12 +300,12 @@ var System = function(options) {
       _.forEach(robbers, function(rob) {
         other = rob.getPosition();
         mag = helper.getDistance(self, other);
-        vec[0] += (self[0] - other[0]) / (mag * mag);
-        vec[1] += (self[1] - other[1]) / (mag * mag);
+        vec[0] += (other[0] - self[0]) / (mag * mag); //reverse vector direction
+        vec[1] += (other[1] - self[1]) / (mag * mag); //reverse vector direction
         if (helper.getDistance(self, other) < rob.getRadius() * 2)
           rob.setType("cop");
       });
-      cop.step(helper.normalizeVector([-1 * vec[0], -1 * vec[1]]));
+      cop.step(helper.normalizeVector(vec));
     });
   };
 
@@ -311,18 +313,37 @@ var System = function(options) {
 
     context.clearRect(0, 0, width, height);
 
-    _.forEach(cops, function(cop) {
-      cop.draw(context);
+    _.forEach(entities, function(ent) {
+      ent.draw(context);
     });
+  };
 
-    _.forEach(robbers, function(robber) {
-      robber.draw(context);
+  var mouseCop, mcInserted;
+  var onMouseDown = function(coords) {
+    mouseCop = new Body({
+      borderX: {
+        min: 0,
+        max: width
+      },
+      borderY: {
+        min: 0,
+        max: height
+      },
+      start: [coords.x, coords.y],
+      type: 'cop'
     });
+  };
+
+  var onMouseUp = function(coords) {
+    mouseCop = undefined;
+    mcInserted = false;
   };
 
   return {
     begin: setup,
-    resize: resize
+    resize: resize,
+    onMouseDown: onMouseDown,
+    onMouseUp: onMouseUp
   };
 };
 

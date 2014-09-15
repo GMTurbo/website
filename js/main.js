@@ -15,6 +15,17 @@ $(document).ready(function() {
 
   system.begin();
 
+  $(window).on("mousedown", function(event) {
+    system.onMouseDown({
+      x: event.pageX,
+      y: event.pageY
+    });
+  });
+
+  $(window).on("mouseup", function(event) {
+    system.onMouseUp();
+  });
+
   $(window).resize(function() {
 
     system.resize({
