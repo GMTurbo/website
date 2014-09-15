@@ -52,18 +52,16 @@ var Body = function(options) {
       path = path.splice(1); //[1,2,3,4,5] => [2,3,4,5]
   };
 
-  var step = function(delta, power) {
+  var step = function(delta) {
 
     if (sentry) return; //sentries don't move
 
-    power = power || 1;
-    
-    var speed = (TYPE == "cop") ? 5 : 0.25;
+    var speed = (TYPE == "cop") ? 2 : 1;
 
-    universlPos[0] += speed * delta[0];
-    universlPos[1] += speed * delta[1];
+    //universlPos[0] += 1 * delta[0];
+    //universlPos[1] += 1 * delta[1];
 
-    futurePos = [position[0] + power * speed * delta[0], position[1] + power * speed * delta[1]];
+    futurePos = [position[0] + speed * delta[0], position[1] + speed * delta[1]];
 
     //if (TYPE == "robber") {
     // if (futurePos[0] > options.borderX.max)

@@ -174,7 +174,7 @@ var System = function(options) {
 
     //return;
 
-    var count = 12;
+    var count = 5;
 
     for (var i = 0; i < count; i++) {
 
@@ -188,7 +188,7 @@ var System = function(options) {
           max: height
         },
         start: [i * width / count, 0],
-        sentry: true,
+      //  sentry: true,
         type: 'cop'
       }));
 
@@ -202,7 +202,7 @@ var System = function(options) {
           max: height
         },
         start: [i * width / count, height],
-        sentry: true,
+      //  sentry: true,
         type: 'cop'
       }));
 
@@ -216,7 +216,7 @@ var System = function(options) {
           max: height
         },
         start: [0, i * height / count],
-        sentry: true,
+      //  sentry: true,
         type: 'cop'
       }));
 
@@ -230,7 +230,7 @@ var System = function(options) {
           max: height
         },
         start: [width, i * height / count],
-        sentry: true,
+      //  sentry: true,
         type: 'cop'
       }));
     }
@@ -248,12 +248,13 @@ var System = function(options) {
     reqFrame(updateSystem);
   };
 
+  //this is where the pursuit algo kicks in
   var updateEntities = function() {
 
     var self = [],
       other = [],
       vec = [],
-      mag;
+      mag, withinDistance = 300;
 
     if (mouseCop && !mcInserted) {
       entities.push(mouseCop);
@@ -277,14 +278,18 @@ var System = function(options) {
     _.forEach(robbers, function(rob) {
 
       self = rob.getPosition();
+
+      var closestCops = getWithin(withinDistance, self, cops);
+      if(closestCops.length == 0)
+        closestCops = cops;
       //calculate vector first
       vec = [0, 0];
 
-      _.forEach(cops, function(cop) {
+      _.forEach(closestCops, function(cop) {
         other = cop.getPosition();
         mag = helper.getDistance(self, other);
-        if (cop.isSentry())
-          mag *= 1e-5;
+        // if (cop.isSentry())
+        //   mag *= 1e-5;
         vec[0] += (self[0] - other[0]) / (mag * mag);
         vec[1] += (self[1] - other[1]) / (mag * mag);
       });
@@ -296,10 +301,14 @@ var System = function(options) {
     _.forEach(cops, function(cop) {
 
       self = cop.getPosition();
+
+      var closestRobbers = getWithin(withinDistance, self, robbers);
+      if(closestRobbers.length == 0)
+        closestRobbers = robbers;
       //calculate vector first
       vec = [0, 0];
 
-      _.forEach(robbers, function(rob) {
+      _.forEach(closestRobbers, function(rob) {
         other = rob.getPosition();
         mag = helper.getDistance(self, other);
         // if (cop.isSentry())
@@ -312,6 +321,12 @@ var System = function(options) {
       cop.step(helper.normalizeVector(vec));
     });
   };
+
+  var getWithin = function(distance, centerPnt, entities){
+    return _.filter(entities, function(ent){
+      return helper.getDistance(centerPnt, ent.getPosition()) < distance;
+    });
+  }
 
   var drawSystem = function() {
 
