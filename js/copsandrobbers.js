@@ -25,7 +25,9 @@ var System = function(options) {
     context = canvas.getContext('2d'),
     initialSetup = true,
     isMobile = options.isMobile,
-    getRadiusByBrowser = function(){ return isMobile ? 15 : 6; };
+    getRadiusByBrowser = function() {
+      return isMobile ? 15 : 6;
+    };
 
   var entities = [];
 
@@ -78,7 +80,7 @@ var System = function(options) {
           max: height
         },
         start: [i * width / count, 0],
-      //  sentry: true,
+        //  sentry: true,
         type: 'cop',
         radius: getRadiusByBrowser()
       }));
@@ -93,7 +95,7 @@ var System = function(options) {
           max: height
         },
         start: [i * width / count, height],
-      //  sentry: true,
+        //  sentry: true,
         type: 'cop',
         radius: getRadiusByBrowser()
       }));
@@ -108,7 +110,7 @@ var System = function(options) {
           max: height
         },
         start: [0, i * height / count],
-      //  sentry: true,
+        //  sentry: true,
         type: 'cop',
         radius: getRadiusByBrowser()
       }));
@@ -123,7 +125,7 @@ var System = function(options) {
           max: height
         },
         start: [width, i * height / count],
-      //  sentry: true,
+        //  sentry: true,
         type: 'cop',
         radius: getRadiusByBrowser()
       }));
@@ -174,7 +176,7 @@ var System = function(options) {
       self = rob.getPosition();
 
       var closestCops = helper.getWithin(withinDistance, self, cops);
-      if(closestCops.length == 0)
+      if (closestCops.length == 0)
         closestCops = cops;
       //calculate vector first
       vec = [0, 0];
@@ -195,7 +197,7 @@ var System = function(options) {
       self = cop.getPosition();
 
       var closestRobbers = helper.getWithin(withinDistance, self, robbers);
-      if(closestRobbers.length == 0)
+      if (closestRobbers.length == 0)
         closestRobbers = robbers;
       //calculate vector first
       vec = [0, 0];
@@ -268,8 +270,8 @@ var helper = {
       Math.pow(pnt2[1] - pnt1[1], 2)
     );
   },
-  getWithin: function(distance, centerPnt, entities){
-    return _.filter(entities, function(ent){
+  getWithin: function(distance, centerPnt, entities) {
+    return _.filter(entities, function(ent) {
       return helper.getDistance(centerPnt, ent.getPosition()) <= distance;
     });
   }
