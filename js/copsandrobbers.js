@@ -70,6 +70,7 @@ var System = function(options) {
         max: height
       },
       start: [0, 0],
+      sentry: true,
       type: 'cop'
     }));
 
@@ -83,6 +84,7 @@ var System = function(options) {
         max: height
       },
       start: [0, height],
+      sentry: true,
       type: 'cop'
     }));
 
@@ -96,6 +98,7 @@ var System = function(options) {
         max: height
       },
       start: [width, 0],
+      sentry: true,
       type: 'cop'
     }));
 
@@ -109,8 +112,70 @@ var System = function(options) {
         max: height
       },
       start: [width, height],
+      sentry: true,
       type: 'cop'
     }));
+
+    var count = 40;
+
+    for(var i=0; i < count ; i++){
+
+      entities.push(new Body({
+        borderX: {
+          min: 0,
+          max: width
+        },
+        borderY: {
+          min: 0,
+          max: height
+        },
+        start: [i * width/count, 0],
+        sentry: true,
+        type: 'cop'
+      }));
+
+      entities.push(new Body({
+        borderX: {
+          min: 0,
+          max: width
+        },
+        borderY: {
+          min: 0,
+          max: height
+        },
+        start: [i * width/count, height],
+        sentry: true,
+        type: 'cop'
+      }));
+
+      entities.push(new Body({
+        borderX: {
+          min: 0,
+          max: width
+        },
+        borderY: {
+          min: 0,
+          max: height
+        },
+        start: [0, i * height/count],
+        sentry: true,
+        type: 'cop'
+      }));
+
+      entities.push(new Body({
+        borderX: {
+          min: 0,
+          max: width
+        },
+        borderY: {
+          min: 0,
+          max: height
+        },
+        start: [width, i * height/count],
+        sentry: true,
+        type: 'cop'
+      }));
+    }
   };
 
   var resize = function(size) {
@@ -156,7 +221,6 @@ var System = function(options) {
       vec = [0, 0];
 
       _.forEach(cops, function(cop) {
-
         prev = cop.getPosition();
         mag = helper.getDistance(cur, prev);
         vec[0] += (cur[0] - prev[0]) / (mag * mag);

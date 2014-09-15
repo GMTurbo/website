@@ -59,7 +59,7 @@ var Body = function(options) {
 
     if (sentry) return; //sentries don't move
 
-    speed = (TYPE == "cop") ? 2 : 0.1;
+    speed = (TYPE == "cop") ? 2 : 1;
 
     universlPos[0] += speed * delta[0];
     universlPos[1] += speed * delta[1];
@@ -82,7 +82,7 @@ var Body = function(options) {
 
   var draw = function(context) {
 
-    if (sentry) return; //sentries don't show
+    //if (sentry) return; //sentries don't show
 
     var pnt = getPosition();
 
