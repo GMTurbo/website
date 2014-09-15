@@ -29,7 +29,7 @@ $(document).ready(function() {
   var system = new System({
     width: $('#space').width(),
     height: $('#space').height(),
-    density: isMobile.any() ? 0.15 : 0.25,
+    density: isMobile.any() ? 0.05 : 0.25,
     canvas: document.getElementById('space-content'),
     reqAnimationFrame: window.requestAnimationFrame
   });
