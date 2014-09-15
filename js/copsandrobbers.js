@@ -60,180 +60,180 @@ var System = function(options) {
 
   var insertCops = function() {
 
-    entities.push(new Body({
-      borderX: {
-        min: 0,
-        max: width
-      },
-      borderY: {
-        min: 0,
-        max: height
-      },
-      start: [0, 0],
-      sentry: true,
-      type: 'cop'
-    }));
-
-    return;
-
-    entities.push(new Body({
-      borderX: {
-        min: 0,
-        max: width
-      },
-      borderY: {
-        min: 0,
-        max: height
-      },
-      start: [0, height],
-      //sentry: true,
-      type: 'cop'
-    }));
-
-    entities.push(new Body({
-      borderX: {
-        min: 0,
-        max: width
-      },
-      borderY: {
-        min: 0,
-        max: height
-      },
-      start: [width, 0],
-      //sentry: true,
-      type: 'cop'
-    }));
-
-    entities.push(new Body({
-      borderX: {
-        min: 0,
-        max: width
-      },
-      borderY: {
-        min: 0,
-        max: height
-      },
-      start: [width, height],
-      //sentry: true,
-      type: 'cop'
-    }));
-
-    entities.push(new Body({
-      borderX: {
-        min: 0,
-        max: width
-      },
-      borderY: {
-        min: 0,
-        max: height
-      },
-      start: [0, height / 2],
-      //sentry: true,
-      type: 'cop'
-    }));
-
-    entities.push(new Body({
-      borderX: {
-        min: 0,
-        max: width
-      },
-      borderY: {
-        min: 0,
-        max: height
-      },
-      start: [width, height / 2],
-      //sentry: true,
-      type: 'cop'
-    }));
-
-    entities.push(new Body({
-      borderX: {
-        min: 0,
-        max: width
-      },
-      borderY: {
-        min: 0,
-        max: height
-      },
-      start: [width / 2, 0],
-      //sentry: true,
-      type: 'cop'
-    }));
-
-    entities.push(new Body({
-      borderX: {
-        min: 0,
-        max: width
-      },
-      borderY: {
-        min: 0,
-        max: height
-      },
-      start: [width / 2, height],
-      //sentry: true,
-      type: 'cop'
-    }));
-
-    // var count = 40;
+    // entities.push(new Body({
+    //   borderX: {
+    //     min: 0,
+    //     max: width
+    //   },
+    //   borderY: {
+    //     min: 0,
+    //     max: height
+    //   },
+    //   start: [0, 0],
+    //   sentry: true,
+    //   type: 'cop'
+    // }));
     //
-    // for(var i=0; i < count ; i++){
+    // entities.push(new Body({
+    //   borderX: {
+    //     min: 0,
+    //     max: width
+    //   },
+    //   borderY: {
+    //     min: 0,
+    //     max: height
+    //   },
+    //   start: [0, height],
+    //   sentry: true,
+    //   type: 'cop'
+    // }));
     //
-    //   entities.push(new Body({
-    //     borderX: {
-    //       min: 0,
-    //       max: width
-    //     },
-    //     borderY: {
-    //       min: 0,
-    //       max: height
-    //     },
-    //     start: [i * width/count, 0],
-    //     sentry: true,
-    //     type: 'cop'
-    //   }));
+    // entities.push(new Body({
+    //   borderX: {
+    //     min: 0,
+    //     max: width
+    //   },
+    //   borderY: {
+    //     min: 0,
+    //     max: height
+    //   },
+    //   start: [width, 0],
+    //   sentry: true,
+    //   type: 'cop'
+    // }));
     //
-    //   entities.push(new Body({
-    //     borderX: {
-    //       min: 0,
-    //       max: width
-    //     },
-    //     borderY: {
-    //       min: 0,
-    //       max: height
-    //     },
-    //     start: [i * width/count, height],
-    //     sentry: true,
-    //     type: 'cop'
-    //   }));
+    // entities.push(new Body({
+    //   borderX: {
+    //     min: 0,
+    //     max: width
+    //   },
+    //   borderY: {
+    //     min: 0,
+    //     max: height
+    //   },
+    //   start: [width, height],
+    //   sentry: true,
+    //   type: 'cop'
+    // }));
     //
-    //   entities.push(new Body({
-    //     borderX: {
-    //       min: 0,
-    //       max: width
-    //     },
-    //     borderY: {
-    //       min: 0,
-    //       max: height
-    //     },
-    //     start: [0, i * height/count],
-    //     sentry: true,
-    //     type: 'cop'
-    //   }));
+    // entities.push(new Body({
+    //   borderX: {
+    //     min: 0,
+    //     max: width
+    //   },
+    //   borderY: {
+    //     min: 0,
+    //     max: height
+    //   },
+    //   start: [0, height / 2],
+    //   sentry: true,
+    //   type: 'cop'
+    // }));
     //
-    //   entities.push(new Body({
-    //     borderX: {
-    //       min: 0,
-    //       max: width
-    //     },
-    //     borderY: {
-    //       min: 0,
-    //       max: height
-    //     },
-    //     start: [width, i * height/count],
-    //     sentry: true,
-    //     type: 'cop'
-    //   }));
-    // }
+    // entities.push(new Body({
+    //   borderX: {
+    //     min: 0,
+    //     max: width
+    //   },
+    //   borderY: {
+    //     min: 0,
+    //     max: height
+    //   },
+    //   start: [width, height / 2],
+    //   sentry: true,
+    //   type: 'cop'
+    // }));
+    //
+    // entities.push(new Body({
+    //   borderX: {
+    //     min: 0,
+    //     max: width
+    //   },
+    //   borderY: {
+    //     min: 0,
+    //     max: height
+    //   },
+    //   start: [width / 2, 0],
+    //   sentry: true,
+    //   type: 'cop'
+    // }));
+    //
+    // entities.push(new Body({
+    //   borderX: {
+    //     min: 0,
+    //     max: width
+    //   },
+    //   borderY: {
+    //     min: 0,
+    //     max: height
+    //   },
+    //   start: [width / 2, height],
+    //   sentry: true,
+    //   type: 'cop'
+    // }));
+
+    //return;
+
+    var count = 12;
+
+    for (var i = 0; i < count; i++) {
+
+      entities.push(new Body({
+        borderX: {
+          min: 0,
+          max: width
+        },
+        borderY: {
+          min: 0,
+          max: height
+        },
+        start: [i * width / count, 0],
+        sentry: true,
+        type: 'cop'
+      }));
+
+      entities.push(new Body({
+        borderX: {
+          min: 0,
+          max: width
+        },
+        borderY: {
+          min: 0,
+          max: height
+        },
+        start: [i * width / count, height],
+        sentry: true,
+        type: 'cop'
+      }));
+
+      entities.push(new Body({
+        borderX: {
+          min: 0,
+          max: width
+        },
+        borderY: {
+          min: 0,
+          max: height
+        },
+        start: [0, i * height / count],
+        sentry: true,
+        type: 'cop'
+      }));
+
+      entities.push(new Body({
+        borderX: {
+          min: 0,
+          max: width
+        },
+        borderY: {
+          min: 0,
+          max: height
+        },
+        start: [width, i * height / count],
+        sentry: true,
+        type: 'cop'
+      }));
+    }
   };
 
   var resize = function(size) {
@@ -283,6 +283,8 @@ var System = function(options) {
       _.forEach(cops, function(cop) {
         other = cop.getPosition();
         mag = helper.getDistance(self, other);
+        if (cop.isSentry())
+          mag *= 1e-5;
         vec[0] += (self[0] - other[0]) / (mag * mag);
         vec[1] += (self[1] - other[1]) / (mag * mag);
       });
@@ -300,6 +302,8 @@ var System = function(options) {
       _.forEach(robbers, function(rob) {
         other = rob.getPosition();
         mag = helper.getDistance(self, other);
+        // if (cop.isSentry())
+        //   mag *= 1e6;
         vec[0] += (other[0] - self[0]) / (mag * mag); //reverse vector direction
         vec[1] += (other[1] - self[1]) / (mag * mag); //reverse vector direction
         if (helper.getDistance(self, other) < rob.getRadius() * 2)

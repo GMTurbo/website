@@ -18,7 +18,7 @@ var Body = function(options) {
     sentry = options.sentry,
     TYPE = options.type,
     r = 3,
-    tailLength = 25,
+    tailLength = 15,
     opacity = 10,
     copColor = 'rgba(171,241,55,' + opacity + ')',
     copShadowColor = 'rgba(0,0,0,1)',
@@ -52,16 +52,18 @@ var Body = function(options) {
       path = path.splice(1); //[1,2,3,4,5] => [2,3,4,5]
   };
 
-  var step = function(delta) {
+  var step = function(delta, power) {
 
     if (sentry) return; //sentries don't move
 
+    power = power || 1;
+    
     var speed = (TYPE == "cop") ? 5 : 0.25;
 
     universlPos[0] += speed * delta[0];
     universlPos[1] += speed * delta[1];
 
-    futurePos = [position[0] + speed * delta[0], position[1] + speed * delta[1]];
+    futurePos = [position[0] + power * speed * delta[0], position[1] + power * speed * delta[1]];
 
     //if (TYPE == "robber") {
     // if (futurePos[0] > options.borderX.max)
@@ -79,7 +81,7 @@ var Body = function(options) {
 
   var draw = function(context) {
 
-    //if (sentry) return; //sentries don't show
+    if (sentry) return; //sentries don't show
 
     var pnt = getPosition();
 
@@ -122,6 +124,9 @@ var Body = function(options) {
     },
     getRadius: function() {
       return r;
+    },
+    isSentry: function() {
+      return sentry;
     }
   };
 };
