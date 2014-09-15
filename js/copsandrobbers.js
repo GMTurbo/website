@@ -279,7 +279,7 @@ var System = function(options) {
 
       self = rob.getPosition();
 
-      var closestCops = getWithin(withinDistance, self, cops);
+      var closestCops = helper.getWithin(withinDistance, self, cops);
       if(closestCops.length == 0)
         closestCops = cops;
       //calculate vector first
@@ -302,7 +302,7 @@ var System = function(options) {
 
       self = cop.getPosition();
 
-      var closestRobbers = getWithin(withinDistance, self, robbers);
+      var closestRobbers = helper.getWithin(withinDistance, self, robbers);
       if(closestRobbers.length == 0)
         closestRobbers = robbers;
       //calculate vector first
@@ -321,12 +321,6 @@ var System = function(options) {
       cop.step(helper.normalizeVector(vec));
     });
   };
-
-  var getWithin = function(distance, centerPnt, entities){
-    return _.filter(entities, function(ent){
-      return helper.getDistance(centerPnt, ent.getPosition()) < distance;
-    });
-  }
 
   var drawSystem = function() {
 
@@ -382,5 +376,10 @@ var helper = {
       Math.pow(pnt2[0] - pnt1[0], 2) +
       Math.pow(pnt2[1] - pnt1[1], 2)
     );
+  },
+  getWithin: function(distance, centerPnt, entities){
+    return _.filter(entities, function(ent){
+      return helper.getDistance(centerPnt, ent.getPosition()) <= distance;
+    });
   }
 };
