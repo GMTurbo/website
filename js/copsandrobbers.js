@@ -47,7 +47,7 @@ var System = function(options) {
           min: 0,
           max: height
         },
-        start: helper.getRandomPnt(width, height),
+        start: helper.getRandomPnt(width, height, 150),
         type: 'robber'
       }));
     }
@@ -361,8 +361,7 @@ var System = function(options) {
 };
 
 var helper = {
-  getRandomPnt: function(xRange, yRange) {
-    var spacer = 150;
+  getRandomPnt: function(xRange, yRange, spacer) {
     return [_.random(spacer, xRange - spacer), _.random(spacer, yRange - spacer)];
   },
   normalizeVector: function(vec) {
