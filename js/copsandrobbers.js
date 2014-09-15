@@ -64,7 +64,7 @@ var System = function(options) {
 
   var insertCops = function() {
 
-    var count = isMobile ? 2 : 5;
+    var count = isMobile ? 2 : 3;
 
     for (var i = 0; i < count; i++) {
 
@@ -205,7 +205,7 @@ var System = function(options) {
         mag = helper.getDistance(self, other);
         vec[0] += (other[0] - self[0]) / (mag * mag); //reverse vector direction
         vec[1] += (other[1] - self[1]) / (mag * mag); //reverse vector direction
-        if (helper.getDistance(self, other) < rob.getRadius() * 2)
+        if (mag < rob.getRadius() * 2)
           rob.setType("cop");
       });
 
